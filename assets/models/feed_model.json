@@ -1,0 +1,16 @@
+{
+    "id": 2,
+    "user_id": 1,
+    "content": "tutorial",
+    "created_at": "2023-10-20T13:31:22.000000Z",
+    "updated_at": "2023-10-20T13:31:22.000000Z",
+    "liked": false,
+    "user": {
+        "id": 1,
+        "name": "admin",
+        "email": "admin@gmail.com",
+        "email_verified_at": null,
+        "created_at": "2023-10-20T11:18:11.000000Z",
+        "updated_at": "2023-10-20T11:18:11.000000Z"
+    }
+}
