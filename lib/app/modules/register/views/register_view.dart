@@ -1,14 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:forum_api/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/login_controller.dart';
+import '../controllers/register_controller.dart';
 
-class LoginView extends GetView<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+class RegisterView extends GetView<RegisterController> {
+  const RegisterView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size.width;
@@ -19,12 +17,21 @@ class LoginView extends GetView<LoginController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Login Page",
+              "Register Page",
               style: TextStyle(
                 fontSize: size * 0.080,
               ),
             ),
             SizedBox(height: 20,),
+            TextField(
+              controller: controller.name,
+              decoration: InputDecoration(
+                labelText: "Name",
+                hintText: "Enter your name",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
             TextField(
               controller: controller.email,
               decoration: InputDecoration(
@@ -61,11 +68,11 @@ class LoginView extends GetView<LoginController> {
                 )
               ),
               onPressed: () {
-                controller.login(controller.email.text,
+                controller.register(controller.email.text, controller.email.text,
                     controller.password.text,);
               },
               child: Text(
-                "LOGIN",
+                "Register",
                 style: TextStyle(
                   fontSize: size * 0.040,
                 ),
@@ -73,9 +80,9 @@ class LoginView extends GetView<LoginController> {
             ),
             SizedBox(height: 10),
             TextButton(
-              onPressed: () => Get.toNamed(Routes.REGISTER), 
+              onPressed: () => Get.toNamed(Routes.LOGIN), 
               child: Text(
-                "Register",
+                "Login",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: size * 0.040,
