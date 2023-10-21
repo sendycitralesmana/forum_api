@@ -61,15 +61,19 @@ class LoginView extends GetView<LoginController> {
                 )
               ),
               onPressed: () {
-                controller.login(controller.email.text,
-                    controller.password.text,);
+                controller.login(email:controller.email.text,
+                    password:controller.password.text,);
               },
-              child: Text(
-                "LOGIN",
-                style: TextStyle(
-                  fontSize: size * 0.040,
-                ),
-              ),
+              child: Obx(() => controller.isLoading.value
+                  ? CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                  : Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: size * 0.040,
+                      ),
+                    )),
             ),
             SizedBox(height: 10),
             TextButton(

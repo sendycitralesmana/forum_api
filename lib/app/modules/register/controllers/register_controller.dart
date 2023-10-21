@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterController extends GetxController {
@@ -11,6 +12,8 @@ class RegisterController extends GetxController {
 
   var hidden = false.obs;
   final isLoading = false.obs;
+  final token = ''.obs;
+  final box = GetStorage();
 
   void dialogError(String msg) {
     Get.defaultDialog(
@@ -37,6 +40,8 @@ class RegisterController extends GetxController {
       if (response.statusCode == 201) {
         isLoading.value = false;
         print(jsonDecode(response.body));
+        token.value = jsonDecode(response.body)['token'];
+        box.write('token', token.value);
         dialogError('Success Register');
       } else {
         isLoading.value = false;
