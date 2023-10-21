@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterController extends GetxController {
   late TextEditingController name;
@@ -7,9 +10,43 @@ class RegisterController extends GetxController {
   late TextEditingController password;
 
   var hidden = false.obs;
+  final isLoading = false.obs;
 
-  void register(String name, email, password) {
+  void dialogError(String msg) {
+    Get.defaultDialog(
+      title: "Pemberitahuan",
+      middleText: msg,
+    );
+  }
 
+  void register({String? name, email, password}) async {
+    String url = 'http://172.17.176.1:80/api/';
+
+    try {
+      isLoading.value = true;
+
+      var data = {
+        'name': name,
+        'email': email,
+        'password': password,
+      };
+
+      var response = await http.post(Uri.parse(url + 'user/register'),
+          headers: {'Accept': 'application/json'}, body: data);
+
+      if (response.statusCode == 201) {
+        isLoading.value = false;
+        print(jsonDecode(response.body));
+        dialogError('Success Register');
+      } else {
+        isLoading.value = false;
+        print(jsonDecode(response.body));
+        dialogError(jsonDecode(response.body)['message']);
+      }
+    } catch (e) {
+      isLoading.value = false;
+      print(e);
+    }
   }
 
   final count = 0.obs;

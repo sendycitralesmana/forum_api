@@ -22,7 +22,9 @@ class RegisterView extends GetView<RegisterController> {
                 fontSize: size * 0.080,
               ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             TextField(
               controller: controller.name,
               decoration: InputDecoration(
@@ -61,26 +63,29 @@ class RegisterView extends GetView<RegisterController> {
             SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 100,
-                  vertical: 20
-                )
-              ),
+                  backgroundColor: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
               onPressed: () {
-                controller.register(controller.email.text, controller.email.text,
-                    controller.password.text,);
+                controller.register(
+                  name: controller.name.text,
+                  email: controller.email.text,
+                  password: controller.password.text,
+                );
               },
-              child: Text(
-                "Register",
-                style: TextStyle(
-                  fontSize: size * 0.040,
-                ),
-              ),
+              child: Obx(() => controller.isLoading.value
+                  ? CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                  : Text(
+                      "Register",
+                      style: TextStyle(
+                        fontSize: size * 0.040,
+                      ),
+                    )),
             ),
             SizedBox(height: 10),
             TextButton(
-              onPressed: () => Get.toNamed(Routes.LOGIN), 
+              onPressed: () => Get.toNamed(Routes.LOGIN),
               child: Text(
                 "Login",
                 style: TextStyle(
