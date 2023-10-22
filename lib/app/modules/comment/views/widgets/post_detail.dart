@@ -5,7 +5,10 @@ import 'package:forum_api/app/modules/feed/views/widgets/post_data.dart';
 import 'package:get/get.dart';
 
 class PostDetail extends StatefulWidget {
-  const PostDetail({super.key, required this.feed, });
+  const PostDetail({
+    super.key,
+    required this.feed,
+  });
 
   final FeedModel feed;
 
@@ -15,6 +18,15 @@ class PostDetail extends StatefulWidget {
 
 class _PostDetailState extends State<PostDetail> {
   final commentC = Get.put(CommentController());
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      commentC.getComments(widget.feed.id);
+    });
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,39 +41,42 @@ class _PostDetailState extends State<PostDetail> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              PostData(
-                feed: widget.feed
-              ),
+              PostData(feed: widget.feed),
               SizedBox(height: 10),
               Container(
                 width: double.infinity,
                 height: 440,
-                child: ListView.builder(
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Text('Comment');
-                  },
-                ),
+                child: Obx(() => commentC.isLoading.value
+                  ? Center(
+                    child: CircularProgressIndicator(),
+                    )
+                  : ListView.builder(
+                      itemCount: commentC.comments.value.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(commentC.comments.value[index].user.name),
+                          subtitle: Text(commentC.comments.value[index].body),
+                        );
+                      },
+                    )),
               ),
               TextField(
                 controller: commentC.commentRequest,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Write a comment ...'
-                ),
+                    border: OutlineInputBorder(),
+                    hintText: 'Write a comment ...'),
               ),
               ElevatedButton(
-                onPressed: () {}, 
+                onPressed: () {},
                 child: Text('Comment'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  elevation: 0,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 50,
-                    vertical: 10,
-                  )
-                ),
+                    backgroundColor: Colors.black,
+                    elevation: 0,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 50,
+                      vertical: 10,
+                    )),
               )
             ],
           ),

@@ -46,7 +46,7 @@ class FeedController extends GetxController {
 
   Future createFeed({String? content}) async {
     try {
-      feeds.value.clear();
+      // feeds.value.clear();
       var data = {
         'content' : content
       };
