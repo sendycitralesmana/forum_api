@@ -68,7 +68,14 @@ class _PostDetailState extends State<PostDetail> {
                     hintText: 'Write a comment ...'),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () async {
+                  await commentC.createComment(
+                    widget.feed.id, 
+                    commentC.commentRequest.text
+                  );
+                  commentC.commentRequest.clear();
+                  commentC.getComments(widget.feed.id);
+                },
                 child: Text('Comment'),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,

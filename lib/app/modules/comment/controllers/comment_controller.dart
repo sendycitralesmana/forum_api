@@ -38,11 +38,38 @@ class CommentController extends GetxController {
         for (var item in content) {
           comments.value.add(CommentModel.fromJson(item));
         }
-        
       } else {
         isLoading.value = false;
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future createComment(id, body) async {
+    try {
+      isLoading.value = true;
+      comments.value.clear();
       
+      var data = {
+        'body' : body
+      };
+
+      var response =
+          await http.post(Uri.parse(url + 'comment/store/feed_id:$id'), headers: {
+        'Accept': 'Application/json',
+        'Authorization': 'Bearer ${box.read('token')}',
+        },
+        body: data
+      );
+
+      if (response.statusCode == 201) {
+        isLoading.value = false;
+        dialogInfo('Success comment');
+      } else {
+        isLoading.value = false;
+        dialogInfo(jsonDecode(response.body)['message']);
+      }
     } catch (e) {
       print(e);
     }
