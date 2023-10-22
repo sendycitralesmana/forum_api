@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/comment/bindings/comment_binding.dart';
+import '../modules/comment/views/comment_view.dart';
 import '../modules/feed/bindings/feed_binding.dart';
 import '../modules/feed/views/feed_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.FEED,
       page: () => const FeedView(),
       binding: FeedBinding(),
+    ),
+    GetPage(
+      name: _Paths.COMMENT,
+      page: () => const CommentView(),
+      binding: CommentBinding(),
     ),
   ];
 }

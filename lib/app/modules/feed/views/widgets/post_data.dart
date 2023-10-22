@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:forum_api/app/data/models/feed_model.dart';
+import 'package:forum_api/app/modules/comment/views/comment_view.dart';
+import 'package:forum_api/app/modules/comment/views/widgets/post_detail.dart';
 import 'package:forum_api/app/modules/feed/controllers/feed_controller.dart';
+import 'package:forum_api/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,7 +50,9 @@ class PostData extends GetView<FeedController> {
                   icon: Icon(Icons.thumb_up),
                 ),
                 IconButton(
-                  onPressed: () {}, 
+                  onPressed: () {
+                    Get.to(PostDetail(feed: feed));
+                  }, 
                   icon: Icon(Icons.message),
                 ),
               ],
