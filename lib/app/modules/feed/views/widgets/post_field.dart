@@ -22,26 +22,32 @@ class PostField extends GetView<FeedController> {
           child: TextField(
             controller: controller.content,
             decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: controller.hintText,
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 10,
-              )
-            ),
+                border: InputBorder.none,
+                hintText: controller.hintText,
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                )),
           ),
         ),
         ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  elevation: 0,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10)),
-              onPressed: () {},
-              child: Text("Post"),
-            ),
-            SizedBox(
-              height: 30,
-            ),
+          style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.black,
+              elevation: 0,
+              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 10)),
+          onPressed: () async {
+            await controller.createFeed(content: controller.content.text);
+            controller.content.clear();
+            controller.getAllFeeds();
+          },
+          child: Obx(() => controller.isLoading.value
+            ? CircularProgressIndicator()
+            : Text("Post"),
+          ),
+        ),
+        SizedBox(
+          height: 30,
+        ),
       ],
     );
   }

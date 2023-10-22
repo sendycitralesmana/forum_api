@@ -13,9 +13,16 @@ class FeedController extends GetxController {
 
   final String hintText = 'What do you want to ask';
   late TextEditingController content;
+  String url = 'http://172.17.176.1:80/api/';
+
+  void dialogInfo(String msg) {
+    Get.defaultDialog(
+      title: "Pemberitahuan",
+      middleText: msg,
+    );
+  }
 
   Future getAllFeeds() async {
-    String url = 'http://172.17.176.1:80/api/';
     try {
       isLoading.value = true;
       var response = await http.get(Uri.parse(url + 'feeds'),
@@ -37,7 +44,33 @@ class FeedController extends GetxController {
     }
   }
 
-  final count = 0.obs;
+  Future createFeed({String? content}) async {
+    try {
+      feeds.value.clear();
+      var data = {
+        'content' : content
+      };
+
+      var response = await http.post(
+        Uri.parse(url + 'feed/store'),
+        headers: {
+        'Accept' : 'Application/json',
+        'Authorization' : 'Bearer ${box.read('token')}',
+        },
+        body: data
+      );
+
+      if (response.statusCode == 200) {
+        dialogInfo('Success create post');
+      } else {
+        dialogInfo(jsonDecode(response.body)['message']);
+      }
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void onInit() {
     content = TextEditingController();
@@ -56,5 +89,4 @@ class FeedController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
 }
